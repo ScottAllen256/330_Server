@@ -9,9 +9,17 @@ public class Server {
     // SimpleServer.java: A simple server program.
     protected static ArrayList<User> users = new ArrayList<>();
 
-
+    protected static Room general;
+    protected static Room roomOne;
+    protected static Room roomTwo;
+    protected static Room roomThree;
 
     public static void main(String args[]) throws IOException {
+
+        general = new Room("general", 0, 20);
+        roomOne = new Room("x", 1, 2);
+        roomTwo = new Room("y", 2, 2);
+        roomThree = new Room("z", 3, 2);
 
         Thread connections = new Thread(new connect_runnable());
         connections.start();
@@ -26,15 +34,23 @@ public class Server {
     private static class connect_runnable implements Runnable{
         @Override
         public void run(){
+            User newUser;
+
             try {
                 ServerSocket s = new ServerSocket(1254);
 
                 while (true) {
                     Socket s1 = s.accept();
-                    users.add(new User(s1));
+
+                    newUser = new User(s1);
+                    users.add(newUser);
+                    general.add_user_to_room(newUser);
+
                     s1=null;
+                    newUser = null;
                 }
-            }catch(IOException e){
+            }
+            catch(IOException e){
 
             }
         }
