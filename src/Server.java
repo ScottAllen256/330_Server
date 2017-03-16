@@ -70,8 +70,8 @@ public class Server {
                         s1out = u.sockID.getInputStream();
                         DataInputStream dos = new DataInputStream (s1out);
 
-                        if(dos != null){
-                            parseMessage(dos);
+                        if(dos.available() > 0){
+                            parseMessage(dos, u);
                         }
                     }
                     catch(IOException e){
@@ -82,40 +82,83 @@ public class Server {
             }
         }
 
-        private void parseMessage(DataInputStream in) throws IOException{
+        private void parseMessage(DataInputStream in, User u) throws IOException{
+            char[] protocol_formed_charArray = DataInput_to_charArray(in);
 
-            char cmd = in.readChar();
+            char cmd = protocol_formed_charArray[0];
 
             switch(cmd){
-                case 'a' :
+                case 'a' : //TODO
                     break;
-                case 'b' :
+                case 'b' : //TODO
                     break;
-                case 'c' :
+                case 'c' : //TODO
                     break;
-                case 'd' :
+                case 'd' : //TODO
                     break;
-                case 'e' :
+                case 'e' : //TODO
                     break;
-                case 'f' :
+                case 'f' : //TODO
                     break;
-                case 'g' :
+                case 'g' : //TODO
                     break;
-                case 'h' :
+                case 'h' : //TODO
                     break;
-                case 'l' :
+                case 'l' : //TODO
                     break;
-                case 'n' :
+                case 'n' : //TODO
                     break;
-                case 'r' :
+                case 'r' : roomMessage(protocol_formed_charArray,u);
                     break;
-                case 's' :
+                case 's' : //TODO
                     break;
-                case 'w' :
+                case 'w' : //TODO
                     break;
-                default  :
+                default  : //TODO
                     break;
             }
+        }
+
+        /**
+        *   Creates a char[] from the DataInputStream
+         *   returns a char[]
+         */
+        public char[] DataInput_to_charArray(DataInputStream in){
+            char[] buff = new char[2000];
+            int counter =0;
+
+            try {
+                while (in.available() > 0) {
+                    buff[counter] = in.readChar();
+                    counter ++;
+                }
+            }
+            catch(IOException e){
+                return null;
+            }
+
+            char[] protocol_format_chararray = new char[counter];
+
+            for(int i = 0; i< counter; i++){
+                protocol_format_chararray[i] = buff[i];
+            }
+
+
+            //Use this to see if the protocol is being received correctly.
+//            for(char c : protocol_format_chararray){
+//                if(c != '\0'){
+//                    System.out.print(c);
+//                }
+//                else
+//                    System.out.print('~');
+//            }
+
+            return protocol_format_chararray;
+
+        }
+
+        public void roomMessage(char[] protocol, User u){
+
         }
     }
 
