@@ -1,6 +1,8 @@
 /**
  * Created by collin on 3/14/2017.
  */
+import sun.misc.IOUtils;
+
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -81,12 +83,8 @@ public class Server {
         }
 
         private void parseMessage(DataInputStream in) throws IOException{
-            String line = in.readUTF();
 
-            if(line.length()<1)
-                return;
-
-            char cmd = line.charAt(0);
+            char cmd = in.readChar();
 
             switch(cmd){
                 case 'a' :
